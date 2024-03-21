@@ -73,11 +73,11 @@ def draw_squares(event, x, y, flags, param):
 
     # Draw the preview square
     image_with_squares = image.copy()
-    cv2.rectangle(image_with_squares, preview_square[0], preview_square[1], (0, 255, 0), 2)
+    cv2.rectangle(image_with_squares, preview_square[0], preview_square[1], (0, 255, 0), 4)
 
     # Draw all the squares
     for square in squares:
-        cv2.rectangle(image_with_squares, square[0], square[1], (0, 0, 255), 2)
+        cv2.rectangle(image_with_squares, square[0], square[1], (0, 0, 255), 4)
 
     # Show the image with the squares
     cv2.imshow(WINDOW_NAME, image_with_squares)
@@ -136,7 +136,7 @@ def navigate_images(images_path, output_path, patch_size):
     squares = []
     display_image(image_files[index], patch_size, squares, index, len(image_files))
 
-    while cv2.getWindowProperty(WINDOW_NAME, cv2.WND_PROP_VISIBLE) >= 0:
+    while cv2.getWindowProperty(WINDOW_NAME, cv2.WND_PROP_VISIBLE) > 0:
         key = cv2.waitKey(1000)
 
         if key == ord('q'):  # Quit
@@ -164,9 +164,10 @@ def navigate_images(images_path, output_path, patch_size):
 
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument("--images-path", type=str, default="images", help="Path to the input images")
-    parser.add_argument("--output-path", type=str, default="patches", help="Path where to save the patches")
-    parser.add_argument("--patch-size", type=int, default=512, help="Size of the patches")
+    parser.add_argument("--images-path", type=str, help="Path to the input images")
+    parser.add_argument("--output-path", type=str, default="./patches",
+                        help="Path where to save the patches (default: ./patches)")
+    parser.add_argument("--patch-size", type=int, default=512, help="Size of the patches (default: 512)")
     args = parser.parse_args()
 
     os.makedirs(args.output_path, exist_ok=True)
