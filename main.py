@@ -2,7 +2,6 @@ import argparse
 import os
 
 import cv2
-import numpy as np
 
 
 WINDOW_NAME = "Patch Cropper"
